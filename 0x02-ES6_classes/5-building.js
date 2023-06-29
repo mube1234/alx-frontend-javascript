@@ -1,30 +1,22 @@
-export default class Building() {
-  /* eslint-disable */
-  export default class Building() {
-  /* eslint-disable */
+export default class Building {
   constructor(sqft) {
-    this._sqft = sqft;
-    if (this.constructor !== Building && this.evacuationWarningMessage === undefined) {
-      throw new Error('Class extending Building must override evacuationWarningMessage');
-    if (
-      this.constructor !== Building
-      && typeof this.evacuationWarningMessage !== 'function'
-    ) {
-      throw Error(
-	'Class extending Building must override evacuationWarningMessage',
-      );
+    if (this.constructor !== Building) {
+      const props = Object.getOwnPropertyNames(this.constructor.prototype);
+      if (!props.find((e) => e === 'evacuationWarningMessage')) {
+        throw new Error('Class extending Building must override evacuationWarningMessage');
+      }
     }
-
     this._sqft = sqft;
   }
 
-  // getter
   get sqft() {
     return this._sqft;
   }
 
-  // setter 
-  set sqft(newSqft) {
-    this._sqft = newSqft;
+  set sqft(sqft) {
+    if ((typeof sqft !== 'number') && (sqft instanceof Number)) {
+      throw new TypeError('Sqft must be a number');
+    }
+    this._sqft = sqft;
   }
 }
